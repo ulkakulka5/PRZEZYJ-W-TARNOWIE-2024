@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przeżyj w Tarnowie♡</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Georgia, serif;
+            background-color: #FFDA98;
+            color: #423620;
+        }
+
+        #startButton {
+            margin-top: 20px;
+        }
+
+        #formularzContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #obrazContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #wynikContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #startGif {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        #wiekdiv {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #wiekValue {
+            margin-right: 10px;
+        }
+
+        #wiekImage {
+            max-width: 30px;
+            height: auto;
+        }
+
+        #error-message {
+            color: rgb(116, 12, 12);
+            margin-top: 10px;
+        }
+
+        #obraz {
+            width: 900px;
+            height: 650px;
+            padding-top: 75px;
+            padding-left: 75px;
+            padding-right: 75px;
+            padding-bottom: 35px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        #tekst1 {
+            text-align: center;
+        }
+
+        #btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Przeżyj w Tarnowie♡ </h1>
+
+    <div id="startButtonContainer">
+        <img id="startGif" src="gif.gif" alt="animacja">
+        <button onclick="rozpocznijGre()">Zacznijmy</button>
+    </div>
+    <div id="formularzContainer">
+        <form id="graFormularz">
+            <label for="nick">Imię (nick):</label>
+            <input type="text" id="nick" required>
+            <br>
+            <label for="wiek">Wiek:</label>
+            <div id="wiekdiv">
+                <span id="wiekValue">10</span>
+                <img id="wiekImage" src="baby.png" alt="Bobas">
+            </div>
+            <input type="range" id="wiek" min="0" max="100" value="10" oninput="wiekf()">
+
+            <br>
+            <label>Płeć:</label>
+            <div id="plecButtons">
+                <label for="mezczyzna">M</label>
+                <input type="radio" id="mezczyzna" name="plec" value="mezczyzna" checked>
+                <label for="kobieta">K</label>
+                <input type="radio" id="kobieta" name="plec" value="kobieta">
+            </div>
+            <br>
+            <button type="button" onclick="pokazObraz()" id="wyslijButton">Wyślij</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+
+    <div id="obrazContainer">
+        <h2>Witaj na dworcu</h2>
+        <div id="tekst1"></div>
+        <img src="dworzec.jpg" alt="dworzec" id="obraz">
+        <br>
+        <div id="btn">
+            <button onclick="przycisk1('dalej')">dalej</button>
+        </div>
+    </div>
+
+    <div id="wynikContainer">
+        <p id="wynikTekst"></p>
+    </div>
+
+    <script>
+        var mezczyznaInput;  // Przenieś deklarację, aby była widoczna globalnie
+
+        function rozpocznijGre() {
+            var gif = document.getElementById('startGif');
+            gif.style.display = 'block';
+            setTimeout(function () {
+                gif.style.display = 'none';
+                document.getElementById('startButtonContainer').style.display = 'none';
+                document.getElementById('formularzContainer').style.display = 'block';
+            }, 2000); //2 sekundy
+        }
+
+        function pokazObraz() {
+            var nickInput = document.getElementById('nick');
+            mezczyznaInput = document.getElementById('mezczyzna');
+            var errorMessage = document.getElementById('error-message');
+            var formularzContainer = document.getElementById('formularzContainer');
+            var obrazContainer = document.getElementById('obrazContainer');
+            var tekst1 = document.getElementById('tekst1');
+
+            if (mezczyznaInput.checked) {
+                tekst1.innerText = 'Wysiadłeś bezpiecznie z pociągu, jest cudny, słoneczny dzień, co może pójść nie tak?';
+            } else {
+                tekst1.innerText = 'Wysiadłaś bezpiecznie z pociągu, jest cudny, słoneczny dzień, co może pójść nie tak?';
+            }
+
+            if (nickInput.value === '') {
+                errorMessage.innerText = 'Proszę podać imię.';
+                return;
+            }
+
+            errorMessage.innerText = '';
+            formularzContainer.style.display = 'none';
+            obrazContainer.style.display = 'block';
+        }
+
+        function przycisk1(dalej) {
+            var obrazContainer = document.getElementById('obrazContainer');
+            var wynikContainer = document.getElementById('wynikContainer');
+            var obraz = document.getElementById('obraz');
+            var tekst1 = document.getElementById('tekst1');
+            var btnContainer = document.getElementById('btn');
+
+            obraz.src = 'planty.jpg';
+            if (mezczyznaInput.checked) {
+                tekst1.innerText = 'Dotarłeś na planty, co za niesamowity park Tarnowski. Ten Tarnów jest piękny, ale czy aby napewno?';
+            } else {
+                tekst1.innerText = 'Dotarłaś na planty, co za niesamowity park Tarnowski. Ten Tarnów jest piękny, ale czy aby napewno?';
+            }
+
+            btnContainer.style.display = 'none'; //chowa przycisk1
+            wynikContainer.style.display = 'block';
+
+            // po 4 sekundach
+            setTimeout(function () {
+                obraz.src = 'planty2.jpg';
+                tekst1.innerText = 'Wybierz mądrze...';
+                btnContainer.innerHTML = '<button onclick="przyciskUnia()">Unia</button><button onclick="przyciskTarnovia()">Tarnovia</button>';
+                btnContainer.style.display = 'flex'; // Pokaż przyciski Unia i Tarnovia
+            }, 4000);
+        }
+
+        function przyciskUnia() {
+            // Obsługa przycisku Unia
+            document.getElementById('wynikTekst').innerText = 'Unia wybrana!';
+        }
+
+        function przyciskTarnovia() {
+            // Obsługa przycisku Tarnovia
+            document.getElementById('wynikTekst').innerText = 'Tarnovia wybrana!';
+        }
+
+        function wiekf() {
+            var wiekInput = document.getElementById('wiek');
+            var wiekValue = document.getElementById('wiekValue');
+            var wiekImage = document.getElementById('wiekImage');
+            var wiek = wiekInput.value;
+
+            wiekValue.innerText = wiek;
+
+            if (wiek <= 10) {
+                wiekImage.src = 'baby.png';
+            } else if (wiek <= 20) {
+                wiekImage.src = 'ziomeczek.png';
+            } else if (wiek <= 50) {
+                wiekImage.src = 'dinozaur.png';
+            } else {
+                wiekImage.src = 'smierc.png';
+            }
+        }
+    </script>
+</body>
+
+</html>
